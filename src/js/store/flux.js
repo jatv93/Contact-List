@@ -45,7 +45,8 @@ const getState = ({ getStore, setStore }) => {
 						return resp.json();
 					})
 					.then(data => {
-						if (data) {
+						console.log(data);
+						if (data.msg !== "Invalid value:  was expecting string between 1 and 255") {
 							fetch("https://assets.breatheco.de/apis/fake/contact/agenda/jatv", {
 								method: "GET",
 								headers: {
@@ -56,7 +57,16 @@ const getState = ({ getStore, setStore }) => {
 									return resp.json();
 								})
 								.then(data => {
-									setStore({ List: data });
+									alert("Contact Save Successfully");
+									setStore({
+										List: data,
+										contacts: {
+											full_name: "",
+											email: "",
+											address: "",
+											phone: ""
+										}
+									});
 								})
 								.catch(error => {
 									console.log(error);
@@ -78,6 +88,10 @@ const getState = ({ getStore, setStore }) => {
 
 			deleteContact: contact_id => {
 				const store = getStore();
+				store.List.splice(contact_id, 1);
+				setStore({ List: store.List });
+				console.log(contact_id);
+
 				fetch("https://assets.breatheco.de/apis/fake/contact/" + contact_id, {
 					method: "DELETE",
 					headers: {
@@ -88,28 +102,12 @@ const getState = ({ getStore, setStore }) => {
 						return resp.json();
 					})
 					.then(data => {
-						setStore({ List: data });
+						console.log(data);
 					})
 					.catch(error => {
 						console.log(error);
 					});
 			}
-
-			/*	updateContact: (contact_id, name, email, agenda_slug, address, phone) => {
-                    fetch("https://assets.breatheco.de/apis/fake/contact/" + contact_id, {
-                        method: "PUT",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify({
-                            full_name: name,
-                            email: email,
-                            agenda_slug: agenda_slug,
-                            address: address,
-                            phone: phone
-                        })
-                    });
-                }*/
 		}
 	};
 };

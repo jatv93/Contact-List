@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import MikePhoto from "../../img/m101.jpg";
+import { Context } from "../store/appContext";
 
 export const ContactCard = props => {
+	const { store, actions } = useContext(Context);
 	const [state, setState] = useState({
 		//initialize state here
 	});
@@ -56,10 +58,10 @@ export const ContactCard = props => {
 ContactCard.propTypes = {
 	history: PropTypes.object,
 	onDelete: PropTypes.func,
-	name: "",
-	email: "",
-	address: "",
-	phone: ""
+	name: PropTypes.string,
+	email: PropTypes.string,
+	address: PropTypes.string,
+	phone: PropTypes.string
 };
 
 /**
