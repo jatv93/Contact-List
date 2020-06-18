@@ -35,7 +35,16 @@ export const Contacts = () => {
 					</ul>
 				</div>
 			</div>
-			<Modal show={state.showModal} onClose={() => setState({ showModal: false })} />
+			{store.List.map((item, index) => {
+				return (
+					<Modal
+						key={index}
+						show={state.showModal}
+						onClose={() => setState({ showModal: false })}
+						id={item.id}
+					/>
+				);
+			})}
 		</div>
 	);
 };

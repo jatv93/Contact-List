@@ -45,7 +45,7 @@ const getState = ({ getStore, setStore }) => {
 						return resp.json();
 					})
 					.then(data => {
-						console.log(data);
+						console.log(data.msg);
 						if (data.msg !== "Invalid value:  was expecting string between 1 and 255") {
 							fetch("https://assets.breatheco.de/apis/fake/contact/agenda/jatv", {
 								method: "GET",
@@ -71,6 +71,8 @@ const getState = ({ getStore, setStore }) => {
 								.catch(error => {
 									console.log(error);
 								});
+						} else {
+							alert("Some information is missing");
 						}
 					})
 					.catch(error => {
@@ -86,9 +88,9 @@ const getState = ({ getStore, setStore }) => {
 				e.preventDefault();
 			},
 
-			deleteContact: contact_id => {
+			deleteContact: (contact_id, index) => {
 				const store = getStore();
-				store.List.splice(contact_id, 1);
+				store.List.splice(index, 1);
 				setStore({ List: store.List });
 				console.log(contact_id);
 
