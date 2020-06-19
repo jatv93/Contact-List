@@ -29,6 +29,7 @@ export const Contacts = () => {
 									email={item.email}
 									address={item.address}
 									phone={item.phone}
+									id={item.id}
 								/>
 							);
 						})}

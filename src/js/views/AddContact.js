@@ -18,7 +18,7 @@ export const AddContact = () => {
 							className="form-control"
 							placeholder="Full Name"
 							name="full_name"
-							value={store.contacts.full_name}
+							value={store.contact.full_name}
 							onChange={e => actions.addContact(e)}
 						/>
 					</div>
@@ -29,7 +29,7 @@ export const AddContact = () => {
 							className="form-control"
 							placeholder="Enter email"
 							name="email"
-							value={store.contacts.email}
+							value={store.contact.email}
 							onChange={e => actions.addContact(e)}
 						/>
 					</div>
@@ -40,7 +40,7 @@ export const AddContact = () => {
 							className="form-control"
 							placeholder="Enter phone"
 							name="phone"
-							value={store.contacts.phone}
+							value={store.contact.phone}
 							onChange={e => actions.addContact(e)}
 						/>
 					</div>
@@ -51,7 +51,7 @@ export const AddContact = () => {
 							className="form-control"
 							placeholder="Enter address"
 							name="address"
-							value={store.contacts.address}
+							value={store.contact.address}
 							onChange={e => actions.addContact(e)}
 						/>
 					</div>
@@ -59,7 +59,7 @@ export const AddContact = () => {
 						save
 					</button>
 					<Link className="mt-3 w-100 text-center" to="/">
-						or get back to contacts
+						or get back to contact
 					</Link>
 				</form>
 			</div>

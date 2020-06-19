@@ -1,7 +1,17 @@
+import { element } from "prop-types";
+
 const getState = ({ getStore, setStore }) => {
 	return {
 		store: {
-			contacts: {
+			contact: {
+				full_name: "",
+				email: "",
+				agenda_slug: "jatv",
+				address: "",
+				phone: ""
+			},
+
+			editContact: {
 				full_name: "",
 				email: "",
 				agenda_slug: "jatv",
@@ -12,6 +22,11 @@ const getState = ({ getStore, setStore }) => {
 			List: []
 		},
 		actions: {
+			setContact: id => {
+				const store = getStore();
+				const contact = store.List.filter(contact => contact.id === id);
+				setStore({ editContact: contact[0] });
+			},
 			getList() {
 				fetch("https://assets.breatheco.de/apis/fake/contact/agenda/jatv", {
 					method: "GET",
@@ -36,7 +51,7 @@ const getState = ({ getStore, setStore }) => {
 
 				fetch("https://assets.breatheco.de/apis/fake/contact/", {
 					method: "POST",
-					body: JSON.stringify(store.contacts),
+					body: JSON.stringify(store.contact),
 					headers: {
 						"Content-Type": "application/json"
 					}
@@ -60,7 +75,7 @@ const getState = ({ getStore, setStore }) => {
 									alert("Contact Save Successfully");
 									setStore({
 										List: data,
-										contacts: {
+										contact: {
 											full_name: "",
 											email: "",
 											address: "",
@@ -82,9 +97,9 @@ const getState = ({ getStore, setStore }) => {
 
 			addContact: e => {
 				const store = getStore();
-				const { contacts } = store;
-				contacts[e.target.name] = e.target.value;
-				setStore({ contacts: contacts });
+				const { contact } = store;
+				contact[e.target.name] = e.target.value;
+				setStore({ contact: contact });
 				e.preventDefault();
 			},
 
@@ -105,6 +120,56 @@ const getState = ({ getStore, setStore }) => {
 					})
 					.then(data => {
 						console.log(data);
+					})
+					.catch(error => {
+						console.log(error);
+					});
+			},
+
+			editContact: e => {
+				const store = getStore();
+				const { editContact } = store;
+				editContact[e.target.name] = e.target.value;
+				setStore({ editContact: editContact });
+				e.preventDefault();
+			},
+
+			updateContact: (e, id) => {
+				e.preventDefault();
+				const store = getStore();
+
+				fetch("https://assets.breatheco.de/apis/fake/contact/" + id, {
+					method: "PUT",
+					body: JSON.stringify(store.editContact),
+					headers: {
+						"Content-Type": "application/json"
+					}
+				})
+					.then(resp => {
+						return resp.json();
+					})
+					.then(data => {
+						console.log(data.msg);
+						if (data) {
+							fetch("https://assets.breatheco.de/apis/fake/contact/agenda/jatv", {
+								method: "GET",
+								headers: {
+									"Content-Type": "application/json"
+								}
+							})
+								.then(resp => {
+									return resp.json();
+								})
+								.then(data => {
+									alert("Contact Updated Successfully");
+									setStore({
+										List: data
+									});
+								})
+								.catch(error => {
+									console.log(error);
+								});
+						}
 					})
 					.catch(error => {
 						console.log(error);
